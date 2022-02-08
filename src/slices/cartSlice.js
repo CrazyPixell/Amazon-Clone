@@ -20,7 +20,7 @@ export const cartSlice = createSlice({
       } else {
         existingProduct.quantity++;
         existingProduct.totalPrice = existingProduct.totalPrice + newItem.price;
-        state.total = state.total + existingProduct.totalPrice;
+        state.total = state.total + newItem.price;
       }
     },
 
@@ -34,8 +34,12 @@ export const cartSlice = createSlice({
         newCart.splice(productIndex, 1);
         state.totalQuantity = state.totalQuantity - product.quantity;
         state.total = state.total - product.totalPrice;
+        state.items;
       } else {
         console.warn('No product find');
+      }
+      if (state.totalQuantity === 0) {
+        state.total = 0;
       }
       state.items = newCart;
     },
@@ -51,6 +55,9 @@ export const cartSlice = createSlice({
         existingItem.quantity--;
         existingItem.totalPrice = existingItem.totalPrice - existingItem.price;
         state.total = state.total - existingItem.price;
+      }
+      if (state.totalQuantity === 0) {
+        state.total = 0;
       }
     },
   },
