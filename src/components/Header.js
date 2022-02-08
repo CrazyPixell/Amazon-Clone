@@ -5,9 +5,14 @@ import {
   SearchIcon,
   ShoppingCartIcon,
   LoginIcon,
+  LogoutIcon,
   XIcon,
 } from '@heroicons/react/outline';
 import Menu from './Menu';
+import { signIn, signOut, useSession } from 'next-auth/react';
+import Link from 'next/link';
+import { useSelector } from 'react-redux';
+import { selectQuantity } from '../slices/cartSlice';
 
 const menu = [
   {
@@ -42,18 +47,29 @@ const menu = [
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const { data: session } = useSession();
+
   const toggleMenu = () => {
     menuOpen ? setMenuOpen(false) : setMenuOpen(true);
   };
 
+  const quantity = useSelector(selectQuantity);
+
   return (
     <header>
       <nav className={`nav slide ${menuOpen ? 'open' : 'close'}`}>
-        <button className='flex items-center p-3 text-left text-[1.4rem] font-bold text-white bg-amazon_blue-light w-full'>
+        <button
+          className='flex items-center p-3 text-left text-[1.4rem] font-bold text-white bg-amazon_blue-light w-full'
+          onClick={!session ? signIn : signOut}
+        >
           <span className='w-7 h-7 mr-4 bg-white rounded-full flex items-center justify-center'>
-            <LoginIcon className='h-6 text-amazon_blue-light' />
+            {session ? (
+              <LoginIcon className='h-6 text-amazon_blue-light' />
+            ) : (
+              <LogoutIcon className='h-6 text-amazon_blue-light' />
+            )}
           </span>
-          Hello, Sign In
+          {session ? `Hello, ${session.user.name}` : 'Sign in'}
         </button>
         {menu.map((item, i) => (
           <Menu
@@ -79,15 +95,17 @@ const Header = () => {
       )}
 
       <div className='flex items-center bg-amazon_blue p-1 flex-grow py-2'>
-        <div className='mt-2 flex items-center flex-grow sm:flex-grow-0'>
-          <Image
-            src='https://links.papareact.com/f90'
-            width={150}
-            height={40}
-            objectFit='contain'
-            className='cursor-pointer'
-          />
-        </div>
+        <Link href='/'>
+          <div className='mt-2 flex items-center flex-grow sm:flex-grow-0'>
+            <Image
+              src='https://links.papareact.com/f90'
+              width={150}
+              height={40}
+              objectFit='contain'
+              className='cursor-pointer'
+            />
+          </div>
+        </Link>
 
         <div className='hidden sm:flex flex-grow cursor-pointer items-center h-10 rounded-md bg-yellow-400 hover:bg-yellow-500'>
           <input
@@ -98,8 +116,8 @@ const Header = () => {
         </div>
 
         <div className='text-white flex items-center text-xs space-x-6 mx-6 whitespace-nowrap'>
-          <div className='link'>
-            <p>Hello Anton</p>
+          <div className='link' onClick={!session ? signIn : signOut}>
+            {session ? `Hello, ${session.user.name}` : 'Sign in'}
             <p className='bold'>Account & Lists</p>
           </div>
 
@@ -108,13 +126,15 @@ const Header = () => {
             <p className='bold'>& Orders</p>
           </div>
 
-          <div className='relative link flex items-center'>
-            <span className='absolute top-0 right-0 md:right-6 h-4 w-4 bg-yellow-400 rounded-full text-center text-black font-bold'>
-              7
-            </span>
-            <ShoppingCartIcon className='h-10' />
-            <p className='bold hidden md:inline mt-2'>Cart</p>
-          </div>
+          <Link href='/checkout'>
+            <div className='relative link flex items-center'>
+              <span className='absolute top-0 right-0 md:right-6 h-4 w-4 bg-yellow-400 rounded-full text-center text-black font-bold'>
+                {quantity}
+              </span>
+              <ShoppingCartIcon className='h-10' />
+              <p className='bold hidden md:inline mt-2'>Cart</p>
+            </div>
+          </Link>
         </div>
       </div>
 

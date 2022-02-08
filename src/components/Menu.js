@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChevronDownIcon, ChevronRightIcon } from '@heroicons/react/outline';
+import { ChevronRightIcon } from '@heroicons/react/outline';
 
 const Menu = ({ menuItemTitle, menuItems }) => {
   return (

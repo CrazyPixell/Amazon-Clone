@@ -19,19 +19,3 @@
     @apply fixed overflow-y-scroll top-0 left-0 h-full w-[80%] md:w-[50%] lg:w-[35%] xl:w-[20%] z-50 bg-white;
   }
 }
-
-.slide {
-  transition: transform 0.5s ease-in-out;
-}
-
-.open {
-  transform: translateX(0);
-}
-
-.close {
-  transform: translateX(-100%);
-}
-
-.moved {
-  left: 105%;
-}

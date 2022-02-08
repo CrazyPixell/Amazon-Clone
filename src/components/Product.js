@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { StarIcon } from '@heroicons/react/solid';
 import Currency from 'react-currency-formatter';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../slices/cartSlice';
 
 const MAX_RATING = 1;
 const MIN_RATING = 5;
 
-const Product = ({ product }) => {
+const Product = ({ product, id }) => {
   const { category, image, title, description, price } = product;
 
   const [rating] = useState(
@@ -14,6 +16,25 @@ const Product = ({ product }) => {
   );
 
   const [hasPrime] = useState(Math.random() < 0.5);
+
+  const dispatch = useDispatch();
+
+  const addItemToCart = () => {
+    const product = {
+      id,
+      category,
+      image,
+      title,
+      description,
+      price,
+      totalPrice: price,
+      rating,
+      hasPrime,
+      quantity: 1,
+    };
+
+    dispatch(addToCart(product));
+  };
 
   return (
     <div className='relative flex flex-col m-5 bg-white z-30 p-10'>
@@ -41,7 +62,9 @@ const Product = ({ product }) => {
           <p className='text-xs text-gray-500'>FREE Next-day Delivery</p>
         </div>
       )}
-      <button className='mt-auto button'>Add to Cart</button>
+      <button onClick={addItemToCart} className='mt-auto button'>
+        Add to Cart
+      </button>
     </div>
   );
 };
