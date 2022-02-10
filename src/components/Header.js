@@ -121,10 +121,12 @@ const Header = () => {
             <p className='bold'>Account & Lists</p>
           </div>
 
-          <div className='link'>
-            <p>Returns</p>
-            <p className='bold'>& Orders</p>
-          </div>
+          <Link href='/orders'>
+            <div className='link'>
+              <p>Returns</p>
+              <p className='bold'>& Orders</p>
+            </div>
+          </Link>
 
           <Link href='/checkout'>
             <div className='relative link flex items-center'>
