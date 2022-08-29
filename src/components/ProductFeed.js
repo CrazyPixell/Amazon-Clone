@@ -1,5 +1,5 @@
-import React from 'react';
-import Product from './Product';
+import React from "react";
+import Product from "./Product";
 
 const ProductFeed = ({ products }) => {
   return (
@@ -11,7 +11,7 @@ const ProductFeed = ({ products }) => {
       <img
         className='md:col-span-full'
         src='https://links.papareact.com/dyz'
-        alt=''
+        alt='banner'
       />
 
       <div className='md:col-span-2'>
